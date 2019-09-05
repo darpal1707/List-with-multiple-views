@@ -19,10 +19,10 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        listOfCars.add(Cars("Sedan", "Can fit maximum of 4 people"))
-        listOfCars.add(Cars("SUV", "Can fit maximum of 6 people"))
-        listOfCars.add(Cars("Hatchback", "Can fit maximum of 4 people"))
-        listOfCars.add(Cars("Van", "Can fit maximum of 8 people"))
+        listOfCars.add(Cars("Sedan", "Can fit maximum of 4 people",false))
+        listOfCars.add(Cars("SUV", "Can fit maximum of 6 people",true))
+        listOfCars.add(Cars("2-door", "Can fit maximum of 2 people",false))
+        listOfCars.add(Cars("Van", "Can fit maximum of 8 people",true))
 
         adapter = CarsAdapter(this, listOfCars)
         listview_lv.adapter = adapter
@@ -42,12 +42,23 @@ class MainActivity : AppCompatActivity() {
         override fun getView(position: Int, p1: View?, p2: ViewGroup?): View {
             val car = listOfCars[position]
 
-            val inflater = context!!.getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
-            val myview = inflater.inflate(R.layout.listview_item, null)
-            myview.tvName.text = car.name
-            myview.tvDes.text = car.description
+            if(car.isBig == true){
+                val inflater =
+                    context!!.getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
+                val myview = inflater.inflate(R.layout.car_big_layout, null)
+                myview.tvName.text = car.name
+                myview.tvDes.text = car.description
+                return myview
+            }
+            else {
+                val inflater =
+                    context!!.getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
+                val myview = inflater.inflate(R.layout.listview_item, null)
+                myview.tvName.text = car.name
+                myview.tvDes.text = car.description
+                return myview
+            }
 
-            return myview
         }
 
         override fun getItem(p0: Int): Any {
